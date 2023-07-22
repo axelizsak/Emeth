@@ -8,8 +8,8 @@ let network = "";
 let rpc = "";
 let password = "";
 let user_name = "";
-let photo_hash = "en attente";
-let kyc = "non";
+let photo_hash = "pending";
+let kyc = "no";
 
 function selectClient() {
   
