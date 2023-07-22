@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 import {ethers} from "ethers"
 import lighthouse from '@lighthouse-web3/sdk'
+import axios from 'axios'
 
 const signAuthMessage = async(publicKey, privateKey) =>{
 	const provider = new ethers.JsonRpcProvider("https://polygon-mainnet.infura.io/v3/b75053046af647a6af56da5f3efe35d1");
@@ -26,18 +27,31 @@ const signAuthMessage = async(publicKey, privateKey) =>{
 	//return Hash
 	  return response.data.Hash;
   }
-  
-  export const beginKyc = async (imagePath, id) => {
-    if (imagePath && id) {
-      console.log('Image Path: ' + imagePath);
-      // Simuler le KYC réussi
-      let hash = await deployEncrypted(imagePath);
-    //   pushHash(hash, id);
-      console.log('KYC procedure completed successfully!');
-      console.log('Hash: ' + hash);
-      
-    } else {
-      // L'image est manquante, afficher un message d'erreur
-      console.log('Please select an image before starting the KYC procedure.');
-    }
-  };
+
+export const beginKyc = async (imagePath, id) => {
+  if (imagePath && id) {
+    console.log('Image Path: ' + imagePath);
+    // Simulate successful KYC
+    let hash = await deployEncrypted(imagePath);
+    console.log('KYC procedure completed successfully!');
+    console.log('Hash: ' + hash);
+
+    // Send the hash to the server
+    axios.post('http://5.196.27.86:3000/upload', {
+      rpc: 'rpc_value', // Replace with actual rpc value
+      network: 'network_value', // Replace with actual network value
+      user_name: 'username_value', // Replace with actual username value
+      password: 'password_value', // Replace with actual password value
+      photo_hash: hash,
+      kyc: 'kyc_value' // Replace with actual kyc value
+    }).then(response => {
+      console.log(response.data);
+    }).catch(error => {
+      console.error(error);
+    });
+  } else {
+    // Image is missing, display an error message
+    console.log('Please select an image before starting the KYC procedure.');
+  }
+};
+

@@ -13,7 +13,7 @@ let network = "";
 let rpc = "";
 let password = "";
 let user_name = "";
-let photo_hash = "pending";
+let photo_hash = "";
 let kyc = "no";
 
 function selectClient() {
