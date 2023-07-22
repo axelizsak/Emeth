@@ -50,7 +50,7 @@ function getRpcPort(client) {
     output: process.stdout
   });
 
-  rl.question(chalk.yellow(`\nOn which RPC port is the ${client.name} client running? (Provide the URL)\n`), (port) => {
+  rl.question(chalk.yellow(`\nOn which RPC port is the ${client.name} client running? (Provide an http/https URL)\n`), (port) => {
     rpc = port;
     rl.close();
     checkRpcAPI(client, port);
@@ -58,10 +58,12 @@ function getRpcPort(client) {
 }
 
 function checkRpcAPI(client, port) {
+  const isAccessible = true;
   const rpcUrl = `${port}`;
-  const rpcCommand = `curl -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"${client.rpcMethod}","params":[],"id":1}' ${rpcUrl}`;
-  
-  exec(rpcCommand, (error, stdout, stderr) => {
+  const httpCommand = `curl -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"${client.rpcMethod}","params":[],"id":1}' ${rpcUrl}`;
+  const wssCommand = "al";
+
+  exec(httpCommand, (error, stdout, stderr) => {
     if (error) {
       console.log(chalk.red(`\nThe RPC API of ${client.name} is not accessible on port ${port}.`));
       return;
@@ -85,7 +87,7 @@ function askUsername() {
   
   let local_user_name;
 
-  rl.question(chalk.yellow('\nEnter an user_name and keep him in mind:\n'), (userInput) => {
+  rl.question(chalk.yellow('Enter an user_name and keep him in mind:\n'), (userInput) => {
     local_user_name = userInput;
     rl.close();
     user_name = local_user_name;
@@ -98,9 +100,6 @@ async function generateRandomWords() {
   try {
     const words = generate(4).join(' ').toUpperCase();
     password = words;
-    console.log(chalk.cyan("\nRandom words (password):"));
-    console.log(chalk.green(`${words}`));
-    console.log(chalk.yellow("\nPlease copy these words, keep them in mind, and download the application."));
     sendInformationToApi();
   } catch (error) {
     console.log(chalk.red(`\nAn error occurred while generating random words: ${error.message}`));
@@ -119,12 +118,15 @@ async function sendInformationToApi() {
     });
 
     console.log(`Information sent to API. Response: ${response.data.message}`);
+    console.log(chalk.cyan("\nRandom words (password):"));
+    console.log(chalk.green(password));
+    console.log(chalk.yellow("\nPlease copy these words, keep them in mind, and download the application."));
   } catch (error) {
     // Check if the error is a 400 error
     if (error.response && error.response.status === 400) {
-      console.log("An error occurred: The RPC is a duplicate.");
+      console.log("\nAn error occurred: The RPC is a duplicate.");
     } else {
-      console.log(`An error occurred while sending information to the API: ${error.message}`);
+      console.log(`\nAn error occurred while sending information to the API: ${error.message}`);
     }
   }
 }
