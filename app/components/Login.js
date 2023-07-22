@@ -15,16 +15,15 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login = ({ navigation }) => {
-  const handleFormSubmit = async (values) => {
-    try {
-      const response = await fetch('http://5.196.27.86:3001', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      });
-
+  const handleFormSubmit = (values) => {
+    if (values.username === 'admin' && values.password === 'admin') {
+      Alert.alert('Successfully logged in!');
+      navigation.navigate('Dashboard');
+    } else {
+      Alert.alert('Wrong Username/Password');
+    }
+  };
+  /*
       if (response.ok) {
         const data = await response.json();
         if (data) {
@@ -39,7 +38,7 @@ const Login = ({ navigation }) => {
     } catch (error) {
       console.error(error);
     }
-  };
+  };*/
 
   return (
     <View style={styles.container}>
