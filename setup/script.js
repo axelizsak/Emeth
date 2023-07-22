@@ -16,7 +16,13 @@ function selectClient() {
   const clients = [
     { name: "Pathfinder (Starknet)", rpcMethod: "starknet_blockNumber", number: 1 },
     { name: "Nethermind (Ethereum)", rpcMethod: "eth_blockNumber", number: 2 },
-    { name: "zkEVM Node (Polygon zkEVM)", rpcMethod: "eth_blockNumber", number: 3 },
+    { name: "Geth (Ethereum)", rpcMethod: "eth_blockNumber", number: 3},
+    { name: "zkEVM Node (Polygon zkEVM)", rpcMethod: "eth_blockNumber", number: 4 },
+    { name: "Geth (Linea)", rpcMethod: "eth_blockNumber", number: 5 },
+    { name: "Nearcore (NEAR)", rpcMethod: "status", number: 6 },
+    { name: "Geth (Celo)", rpcMethod: "eth_blockNumber", number: 7 },
+    { name: "Nethermind (Gnosis Chain)", rpcMethod: "eth_blockNumber", number: 8 },
+
     // Add other clients to the list here
   ];
 
