@@ -119,7 +119,12 @@ async function sendInformationToApi() {
 
     console.log(`Information sent to API. Response: ${response.data.message}`);
   } catch (error) {
-    console.log(`An error occurred while sending information to the API: ${error.message}`);
+    // Check if the error is a 400 error
+    if (error.response && error.response.status === 400) {
+      console.log("An error occurred: The RPC is a duplicate.");
+    } else {
+      console.log(`An error occurred while sending information to the API: ${error.message}`);
+    }
   }
 }
 
