@@ -3,6 +3,11 @@ import { exec } from 'child_process';
 import { generate } from 'random-words';
 import chalk from 'chalk';
 import axios from 'axios';
+import fs from 'fs';
+import path from 'path';
+import clear from 'clear';
+import { beginKyc } from './upload.js';
+import { getIdByPassword } from './utils.js';
 
 let network = "";
 let rpc = "";
@@ -12,7 +17,7 @@ let photo_hash = "pending";
 let kyc = "no";
 
 function selectClient() {
-  
+  clear();
   const clients = [
     { name: "Pathfinder (Starknet)", rpcMethod: "starknet_blockNumber", number: 1 },
     { name: "Nethermind (Ethereum)", rpcMethod: "eth_blockNumber", number: 2 },
@@ -107,9 +112,63 @@ async function generateRandomWords() {
     const words = generate(4).join(' ').toUpperCase();
     password = words;
     sendInformationToApi();
+    chooseDox();
   } catch (error) {
     console.log(chalk.red(`\nAn error occurred while generating random words: ${error.message}`));
   }
+}
+
+function chooseDox() {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+
+  console.log(chalk.yellow("\nHow do you want to get DOXXED?"));
+  console.log(chalk.cyan("\n(1) Upload a photo on Filecoin"));
+  console.log(chalk.cyan("(2) Proof of Humanity through Worldcoin"));
+
+  rl.question(chalk.green("Enter the number: "), (answer) => {
+    const kycChoice = answer;
+    console.log(chalk.blue("You chose: " + kycChoice));
+
+    if (kycChoice == 1) {
+      getPath(rl) // Pass the rl instance as an argument
+        .then((imagePath) => {
+          rl.close(); // Close the readline interface after getting the imagePath
+          photo_hash = beginKyc(imagePath, password);
+        })
+        .catch((error) => {
+          console.error(error);
+          rl.close();
+        });
+    } else if (kycChoice == 2) {
+      photo_hash = "0";
+      console.log(chalk.yellow("WorldCoin is coming soon!"));
+      rl.close();
+    }
+  });
+}
+
+
+function getPath(rl) {
+  return new Promise((resolve, reject) => {
+    rl.question(chalk.yellow("\nEnter the path of the image you want to upload:\n"), (userInput) => {
+      if (!fs.existsSync(userInput)) {
+        console.log(chalk.red("Error: The specified file does not exist."));
+        return getPath(rl); // Rappeler la fonction pour obtenir un nouveau chemin
+      }
+
+      const fileExtension = path.extname(userInput).toLowerCase();
+      if (fileExtension !== ".png" && fileExtension !== ".jpg" && fileExtension !== ".jpeg") {
+        console.log(chalk.red("Error: The specified file is not an image (png, jpg, jpeg)."));
+        return getPath(rl); // Rappeler la fonction pour obtenir un nouveau chemin
+      }
+
+      rl.close(); // Fermer l'interface readline après avoir obtenu l'entrée valide
+      resolve(userInput); // Résoudre la promesse avec le chemin d'image valide
+    });
+  });
 }
 
 async function sendInformationToApi() {
@@ -129,11 +188,11 @@ async function sendInformationToApi() {
     console.log(chalk.yellow("\nPlease copy these words, keep them in mind, and download the application."));
   } catch (error) {
     // Check if the error is a 400 error
-    if (error.response && error.response.status === 400) {
-      console.log("\nAn error occurred: The RPC is a duplicate.");
-    } else {
-      console.log(`\nAn error occurred while sending information to the API: ${error.message}`);
-    }
+    // if (error.response && error.response.status === 400) {
+    //   console.log("\nAn error occurred: The RPC is a duplicate.");
+    // } else {
+    //   console.log(`\nAn error occurred while sending information to the API: ${error.message}`);
+    //}
   }
 }
 
