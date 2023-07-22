@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+
+// Import the custom font
+import { useFonts, Inter_500Medium } from '@expo-google-fonts/inter';
 
 const EmethNode = () => {
   // Sample data
@@ -17,8 +19,18 @@ const EmethNode = () => {
     { id: '10', location: 'Los Angeles' },
   ]);
 
+  // Load the custom font
+  const [fontsLoaded] = useFonts({
+    Inter_500Medium,
+  });
+
+  if (!fontsLoaded) {
+    return null; // Render nothing until the font is loaded
+  }
+
   return (
     <View style={styles.container}>
+      {/* Use the custom font for the title */}
       <Text style={styles.title}>Top KYC Node</Text>
       {data.map((item, index) => (
         <View key={item.id} style={styles.row}>
@@ -33,12 +45,14 @@ const EmethNode = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f5f5f5', // Soft white-grey background color
     padding: 20,
   },
   title: {
+    fontFamily: 'Inter_500Medium', // Use the custom font here
     fontSize: 24,
     marginBottom: 20,
+    color: '#007bff', // Custom title color (blue)
   },
   row: {
     flexDirection: 'row',
@@ -56,34 +70,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
-
-const cityData = [
-    {name: 'New York', coordinates: [40.7128, -74.0060]},
-    {name: 'Los Angeles', coordinates: [34.0522, -118.2437]},
-    {name: 'London', coordinates: [51.5074, -0.1278]},
-    // add more cities as necessary
-  ];
-  
-  function CityMarkers() {
-    return (
-      cityData.map(city =>
-        <Marker position={city.coordinates}>
-          <Popup>{city.name}</Popup>
-        </Marker>
-      )
-    );
-  }
-  
-  function EmethNodes() {
-    return (
-      <MapContainer center={[51.505, -0.09]} zoom={2} style={{ height: "100vh", width: "100%" }}>
-        <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <CityMarkers />
-      </MapContainer>
-    );
-  }
 
 export default EmethNode;
