@@ -16,6 +16,7 @@ function selectClient() {
   const clients = [
     { name: "Pathfinder (Starknet)", rpcMethod: "starknet_blockNumber", number: 1 },
     { name: "Nethermind (Ethereum)", rpcMethod: "eth_blockNumber", number: 2 },
+    { name: "zkEVM Node (Polygon zkEVM)", rpcMethod: "eth_blockNumber", number: 3 },
     // Add other clients to the list here
   ];
 
@@ -58,7 +59,7 @@ function getRpcPort(client) {
 
 function checkRpcAPI(client, port) {
   const rpcUrl = `${port}`;
-  const rpcCommand = `curl -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"${client.rpcMethod}","params":["latest"],"id":1}' ${rpcUrl}`;
+  const rpcCommand = `curl -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"${client.rpcMethod}","params":[],"id":1}' ${rpcUrl}`;
   
   exec(rpcCommand, (error, stdout, stderr) => {
     if (error) {
