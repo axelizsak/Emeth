@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button } from 'react-native';
 
-const Dashboard = () => {
+const Dashboard = ({ navigation }) => {
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
@@ -12,7 +12,7 @@ const Dashboard = () => {
       username: 'user',
       ID: '1',
       nodeRunning: true,
-      KYC: 'yes',
+      KYC: 'false',
     });
   }, []);
 
@@ -24,6 +24,7 @@ const Dashboard = () => {
         <Text style={styles.infoItem}><Text style={styles.bold}>ID:</Text> {userData.ID}</Text>
         <Text style={styles.infoItem}><Text style={styles.bold}>Node running:</Text> {userData.nodeRunning ? 'Yes' : 'No'}</Text>
         <Text style={styles.infoItem}><Text style={styles.bold}>KYC:</Text> {userData.KYC}</Text>
+        {userData.KYC === 'false' && <Button title="Go to Upload" onPress={() => navigation.navigate('Upload')} />}
       </ScrollView>
     </View>
   );
