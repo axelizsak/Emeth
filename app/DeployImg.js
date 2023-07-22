@@ -12,9 +12,9 @@ const signAuthMessage = async(publicKey, privateKey) =>{
   }
   
   const deployEncrypted = async(path) =>{
-	const apiKey = "f7beb09f.84a518c0281340068f6733bc1b0b849a";
-	const publicKey = "0x25ccb96c5678801b3bCcBF871F3Db98d040600aA";
-	const privateKey = "0x9495be1aa9bd65de0c27f8256d63acedf194f75d6330e3e42cb6a96174b8b896";
+	const apiKey = "API_KEY";
+	const publicKey = "PUBLIC_KEY";
+	const privateKey = "PRIVATE_KEY";
 	const signedMessage = await signAuthMessage(publicKey, privateKey);
   
 	const response = await lighthouse.uploadEncrypted(
