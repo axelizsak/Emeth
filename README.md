@@ -33,31 +33,7 @@ To install Emeth, follow the steps below:
 1. Git Clone the repo
 2. For the android app, you can run it using android studio (dl link : https://developer.android.com/studio).
 
-## Usage
-
-To use Emeth:
-
-1. Run ```nps start``` within the app directory
-2. Step two.
-3. Step three.
-
 ## Contributing
 
 We welcome contributions from everyone. If you're interested in contributing, please see our [Contributing Guide](LINK_TO_GUIDE).
 
-## License
-
-Emet is licensed under the [LICENSE_NAME](LINK_TO_LICENSE). For more information, see the [LICENSE](LINK_TO_LICENSE) file.
-
-## Contact
-
-For any inquiries, please contact us at:
-
-- Email: your-email@example.com
-- Twitter: @your_twitter
-
-## Acknowledgments
-
-We would like to thank the following individuals and organizations:
-
-- List of acknowledgments.
