@@ -7,7 +7,6 @@ import fs from 'fs';
 import path from 'path';
 import clear from 'clear';
 import { beginKyc } from './upload.js';
-import { getIdByPassword } from './utils.js';
 
 let network = "";
 let rpc = "";
@@ -16,8 +15,24 @@ let user_name = "";
 let photo_hash = "";
 let kyc = "no";
 
+
+const text = `
+ :::::::::: ::::    ::::  :::::::::: ::::::::::: :::    ::: 
+ :+:        +:+:+: :+:+:+ :+:            :+:     :+:    :+: 
+ +:+        +:+ +:+:+ +:+ +:+            +:+     +:+    +:+ 
+ +#++:++#   +#+  +:+  +#+ +#++:++#       +#+     +#++:++#++ 
+ +#+        +#+       +#+ +#+            +#+     +#+    +#+ 
+ #+#        #+#       #+# #+#            #+#     #+#    #+# 
+ ########## ###       ### ##########     ###     ###    ### 
+`;
+
+
 function selectClient() {
   clear();
+  console.log(chalk.cyan("============================================================"));
+  console.log(chalk.yellow(text));
+  console.log(chalk.cyan("============================================================\n\n"));
+  console.log("BEFORE IT STARTS, MAKE SURE YOU ARE ABLE TO PHOTOGRAPH YOURSELF.\n");
   const clients = [
     { name: "Pathfinder (Starknet)", rpcMethod: "starknet_blockNumber", number: 1 },
     { name: "Nethermind (Ethereum)", rpcMethod: "eth_blockNumber", number: 2 },
@@ -31,7 +46,7 @@ function selectClient() {
     // Add other clients to the list here
   ];
 
-  console.log(chalk.cyan("Please select a client:"));
+  console.log(chalk.cyan("Emeth supports all those clients:\n"));
   clients.forEach((client, index) => {
     console.log(`(${index + 1}) ${client.name}`);
   });
@@ -41,7 +56,7 @@ function selectClient() {
     output: process.stdout
   });
 
-  rl.question(chalk.yellow('\nEnter the number of the client you are using:\n'), (num) => {
+  rl.question(chalk.yellow('\nEnter the number of the client you are exposing:\n'), (num) => {
     const selectedClient = clients[num - 1];
     if (selectedClient) {
       network = selectedClient.name;
@@ -61,7 +76,7 @@ function getRpcPort(client) {
     output: process.stdout
   });
 
-  rl.question(chalk.yellow(`\nOn which RPC port is the ${client.name} client running? (Provide an http/https URL)\n`), (port) => {
+  rl.question(chalk.yellow(`\n\n\nOn which RPC port is the ${client.name} client exposed? (Provide an http/https URL)\n`), (port) => {
     rpc = port;
     rl.close();
     checkRpcAPI(client, port);
@@ -85,7 +100,7 @@ function checkRpcAPI(client, port) {
       console.log(chalk.green(`\nThe RPC API of ${client.name} is accessible on port ${port}.\n`));
       askUsername();
     } else {
-      console.log(chalk.red(`\nThe RPC API of ${client.name} is not accessible on port ${port}.\n`));
+      console.log(chalk.red(`\n\n\nThe RPC API of ${client.name} is not accessible on port ${port}.\n`));
     }
   });
 }
@@ -98,7 +113,7 @@ function askUsername() {
   
   let local_user_name;
 
-  rl.question(chalk.yellow('Enter an user_name and keep him in mind:\n'), (userInput) => {
+  rl.question(chalk.yellow('\n\nEnter an username, and keep it in mind:\n'), (userInput) => {
     local_user_name = userInput;
     rl.close();
     user_name = local_user_name;
@@ -124,11 +139,15 @@ function chooseDox() {
     output: process.stdout
   });
 
-  console.log(chalk.yellow("\nHow do you want to get DOXXED?"));
+  clear();
+  console.log(chalk.cyan("============================================================"));
+  console.log(chalk.yellow(text));
+  console.log(chalk.cyan("============================================================\n\n"));
+  console.log(chalk.yellow("\n\n\nHow do you want to get DOXXED?"));
   console.log(chalk.cyan("\n(1) Upload a photo on Filecoin"));
   console.log(chalk.cyan("(2) Proof of Humanity through Worldcoin"));
 
-  rl.question(chalk.green("Enter the number: "), (answer) => {
+  rl.question(chalk.green("\n\nEnter the number: "), (answer) => {
     const kycChoice = answer;
     console.log(chalk.blue("You chose: " + kycChoice));
 
@@ -150,9 +169,9 @@ function chooseDox() {
   });
 }
 
-
 function getPath(rl) {
   return new Promise((resolve, reject) => {
+    console.log("\n\n\nIn order to identify you as quickly as possible, we will ask you to take a photo of yourself with the 4 words above written or printed on a sheet of paper.");
     rl.question(chalk.yellow("\nEnter the path of the image you want to upload:\n"), (userInput) => {
       if (!fs.existsSync(userInput)) {
         console.log(chalk.red("Error: The specified file does not exist."));
@@ -187,12 +206,12 @@ async function sendInformationToApi() {
     console.log(chalk.green(password));
     console.log(chalk.yellow("\nPlease copy these words, keep them in mind, and download the application."));
   } catch (error) {
-    // Check if the error is a 400 error
-    // if (error.response && error.response.status === 400) {
-    //   console.log("\nAn error occurred: The RPC is a duplicate.");
-    // } else {
-    //   console.log(`\nAn error occurred while sending information to the API: ${error.message}`);
-    //}
+    if (error.response && error.response.status === 400) {
+      console.log("\nAn error occurred: The RPC is a duplicate.");
+    } else {
+      console.log(`\nAn error occurred while sending information to the API: ${error.message}`);
+    }
+    process.exit(1);
   }
 }
 
