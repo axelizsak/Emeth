@@ -1,5 +1,5 @@
 # Emeth
-![](./setup/Emeth_Schema.excalidraw)
+
 Emeth, meaning 'truth' in Hebrew, is a revolutionary Know Your Customer (KYC) system built to run as a full node across multiple blockchain networks, including Ethereum, StarkNet, and Polygon. Developed with large institutions in mind, Emet is designed to provide a comprehensive, secure, and user-friendly KYC process for blockchain transactions. Our unique approach integrates the principles of decentralization and autonomy, focusing particularly on promoting the decentralization of RPC (Remote Procedure Call).
 
 ## Advantages of Emeth
@@ -37,3 +37,4 @@ To install Emeth, follow the steps below:
 
 We welcome contributions from everyone. If you're interested in contributing, please see our [Contributing Guide](LINK_TO_GUIDE).
 
+![Schema](./setup/Emeth_Schema.excalidraw)
