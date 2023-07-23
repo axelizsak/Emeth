@@ -3,6 +3,9 @@ dotenv.config()
 import {ethers} from "ethers"
 import lighthouse from '@lighthouse-web3/sdk'
 import axios from 'axios'
+import chalk from 'chalk'
+import {text} from './script.js'
+import clear from 'clear'
 
 const signAuthMessage = async(publicKey, privateKey) =>{
 	const provider = new ethers.JsonRpcProvider("https://polygon-mainnet.infura.io/v3/b75053046af647a6af56da5f3efe35d1");
@@ -24,17 +27,29 @@ const signAuthMessage = async(publicKey, privateKey) =>{
 	  publicKey,
 	  signedMessage
 	);
-	//return Hash
 	  return response.data.Hash;
   }
 
 export const beginKyc = async (imagePath, id) => {
   if (imagePath && id) {
-    console.log('Image Path: ' + imagePath);
+    clear();
+    console.log(chalk.cyan("============================================================"));
+    console.log(chalk.yellow(text));
+    console.log(chalk.cyan("============================================================\n\n"));
+    console.log(chalk.green('\nFound your picture at path: ' + imagePath));
+    console.log("\n⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛⌛\n");
     // Simulate successful KYC
     let hash = await deployEncrypted(imagePath);
-    console.log('KYC procedure completed successfully!');
-    console.log('Hash: ' + hash);
+    clear();
+    console.log(chalk.cyan("============================================================"));
+    console.log(chalk.yellow(text));
+    console.log(chalk.cyan("============================================================\n\n"));
+    console.log(chalk.cyan('Your photo has been encrypted and stored on the Filecoin chain!'));
+    console.log('\nHash: ' + hash);
+    console.log('\n');
+    console.log(chalk.cyan("============================================================"));
+    console.log(chalk.green("\nYour KYC is being assessed ⌛. In the meantime, observe your peers in real time on our website!\n\n"));
+
 
     // Send the hash to the server
     axios.post('http://5.196.27.86:3000/upload', {
@@ -45,13 +60,15 @@ export const beginKyc = async (imagePath, id) => {
       photo_hash: hash,
       kyc: 'kyc_value' // Replace with actual kyc value
     }).then(response => {
-      console.log(response.data);
+
     }).catch(error => {
       console.error(error);
+      process.exit(1);
     });
   } else {
     // Image is missing, display an error message
     console.log('Please select an image before starting the KYC procedure.');
+    process.exit(1);
   }
 };
 

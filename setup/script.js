@@ -16,7 +16,7 @@ let photo_hash = "";
 let kyc = "no";
 
 
-const text = `
+export const text = `
  :::::::::: ::::    ::::  :::::::::: ::::::::::: :::    ::: 
  :+:        +:+:+: :+:+:+ :+:            :+:     :+:    :+: 
  +:+        +:+ +:+:+ +:+ +:+            +:+     +:+    +:+ 
@@ -126,7 +126,7 @@ async function generateRandomWords() {
   try {
     const words = generate(4).join(' ').toUpperCase();
     password = words;
-    sendInformationToApi();
+    await sendInformationToApi();
     chooseDox();
   } catch (error) {
     console.log(chalk.red(`\nAn error occurred while generating random words: ${error.message}`));
@@ -143,9 +143,11 @@ function chooseDox() {
   console.log(chalk.cyan("============================================================"));
   console.log(chalk.yellow(text));
   console.log(chalk.cyan("============================================================\n\n"));
+  console.log(chalk.cyan("\nRandom words (password):"));
+  console.log(chalk.green(password));
   console.log(chalk.yellow("\n\n\nHow do you want to get DOXXED?"));
   console.log(chalk.cyan("\n(1) Upload a photo on Filecoin"));
-  console.log(chalk.cyan("(2) Proof of Humanity through Worldcoin"));
+  console.log(chalk.cyan("(2) Proof of Humanity through Worldcoin (coming soon)"));
 
   rl.question(chalk.green("\n\nEnter the number: "), (answer) => {
     const kycChoice = answer;
@@ -163,7 +165,7 @@ function chooseDox() {
         });
     } else if (kycChoice == 2) {
       photo_hash = "0";
-      console.log(chalk.yellow("WorldCoin is coming soon!"));
+      console.log(chalk.yellow("WorldCoin is coming soon! We suggere you to take the first option."));
       rl.close();
     }
   });
@@ -172,7 +174,7 @@ function chooseDox() {
 function getPath(rl) {
   return new Promise((resolve, reject) => {
     console.log("\n\n\nIn order to identify you as quickly as possible, we will ask you to take a photo of yourself with the 4 words above written or printed on a sheet of paper.");
-    rl.question(chalk.yellow("\nEnter the path of the image you want to upload:\n"), (userInput) => {
+    rl.question(chalk.yellow("\nEnter the path of the image you want to upload (ex: path/to/image.jpg)\n"), (userInput) => {
       if (!fs.existsSync(userInput)) {
         console.log(chalk.red("Error: The specified file does not exist."));
         return getPath(rl); // Rappeler la fonction pour obtenir un nouveau chemin
@@ -202,12 +204,10 @@ async function sendInformationToApi() {
     });
 
     console.log(`Information sent to API. Response: ${response.data.message}`);
-    console.log(chalk.cyan("\nRandom words (password):"));
-    console.log(chalk.green(password));
-    console.log(chalk.yellow("\nPlease copy these words, keep them in mind, and download the application."));
+
   } catch (error) {
     if (error.response && error.response.status === 400) {
-      console.log("\nAn error occurred: The RPC is a duplicate.");
+      console.log("\nThe RPC is a duplicate, try with an other one");
     } else {
       console.log(`\nAn error occurred while sending information to the API: ${error.message}`);
     }
