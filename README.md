@@ -22,21 +22,22 @@ Emeth's full node KYC system boasts a multitude of benefits, key among them bein
 
 Before installing Emeth, ensure that you have the following software installed:
 
-- List of necessary software and versions.
+- install all react native dependencies using ```npm start```.
+- for the Android App : merge Android-app-addons directory directly with the apk.
+- Server-side and database : Nothing to do, it's already running !
 
 ### Installation
 
 To install Emeth, follow the steps below:
 
-1. Step one.
-2. Step two.
-3. Step three.
+1. Git Clone the repo
+2. For the android app, you can run it using android studio (dl link : https://developer.android.com/studio).
 
 ## Usage
 
 To use Emeth:
 
-1. Step one.
+1. Run ```nps start``` within the app directory
 2. Step two.
 3. Step three.
 
