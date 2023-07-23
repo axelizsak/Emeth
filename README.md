@@ -37,4 +37,4 @@ To install Emeth, follow the steps below:
 
 We welcome contributions from everyone. If you're interested in contributing, please see our [Contributing Guide](LINK_TO_GUIDE).
 
-![Schema](./setup/Emeth_Schema.excalidraw)
+![Schema](./setup/schema.png)
