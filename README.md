@@ -1,10 +1,10 @@
 # Emeth
 
-Emeth, meaning 'truth' in Hebrew, is a revolutionary Know Your Customer (KYC) system built to run as a full node across multiple blockchain networks, including Ethereum, StarkNet, and Polygon. Developed with large institutions in mind, Emet is designed to provide a comprehensive, secure, and user-friendly KYC process for blockchain transactions. Our unique approach integrates the principles of decentralization and autonomy, focusing particularly on promoting the decentralization of RPC (Remote Procedure Call).
+Emeth, meaning 'truth' in Hebrew, is a revolutionary decentralized and on-chain Know Your Customer (KYC) system built to run as a full node across multiple blockchain networks, including Ethereum, StarkNet, and Polygon. Developed with large institutions in mind, Emet is designed to provide a comprehensive, secure, and user-friendly KYC process for blockchain transactions. Our unique approach integrates the principles of decentralization and autonomy, focusing particularly on promoting the decentralization of RPC (Remote Procedure Call).
 
 ## Advantages of Emeth
 
-Emeth's full node KYC system boasts a multitude of benefits, key among them being:
+Emeth's decentralized and on-chain KYC system boasts a multitude of benefits, key among them being:
 
 1. **Decentralization:** Emeth is built on the core principle of decentralization. By decentralizing RPC, Emeth reduces the dependency on centralized systems, thereby enhancing security, improving reliability, and increasing system resilience to faults and failures.
 
@@ -32,9 +32,5 @@ To install Emeth, follow the steps below:
 
 1. Git Clone the repo
 2. For the android app, you can run it using android studio (dl link : https://developer.android.com/studio).
-
-## Contributing
-
-We welcome contributions from everyone. If you're interested in contributing, please see our [Contributing Guide](LINK_TO_GUIDE).
 
 ![Schema](./setup/schema.png)
